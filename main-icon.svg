@@ -1,0 +1,12 @@
+  <svg viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="350" height="350" style="fill: #dbedff" />
+          <rect x="140" y="0" width="70" height="70" style="fill: #005cc5" />
+          <rect x="140" y="140" width="70" height="70" style="fill: #005cc5" />
+          <rect x="140" y="280" width="70" height="70" style="fill: #005cc5" />
+          <rect x="70" y="140" width="70" height="70" style="fill: #005cc5" />
+            <rect x="210" y="140" width="70" height="70" style="fill: #005cc5" />
+          <rect x="0" y="0" width="70" height="70" style="fill: #005cc5" />
+            <rect x="280" y="0" width="70" height="70" style="fill: #005cc5" />
+          <rect x="0" y="280" width="70" height="70" style="fill: #005cc5" />
+            <rect x="280" y="280" width="70" height="70" style="fill: #005cc5" />
+  </svg>
