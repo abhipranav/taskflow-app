@@ -36,6 +36,32 @@ interface QuickCaptureProps {
   boards: Board[];
 }
 
+type SpeechRecognitionResult = {
+  transcript: string;
+};
+
+type SpeechRecognitionEventLike = {
+  results: ArrayLike<ArrayLike<SpeechRecognitionResult>>;
+};
+
+type SpeechRecognitionInstance = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onstart: (() => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  start: () => void;
+};
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance;
+
+type WindowWithSpeechRecognition = Window & {
+  SpeechRecognition?: SpeechRecognitionConstructor;
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
+};
+
 export function QuickCapture({ boards }: QuickCaptureProps) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -152,13 +178,16 @@ export function QuickCapture({ boards }: QuickCaptureProps) {
 
   // Voice input
   const startListening = useCallback(() => {
-    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+    const speechWindow = window as WindowWithSpeechRecognition;
+    const SpeechRecognitionCtor =
+      speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
+
+    if (!SpeechRecognitionCtor) {
       alert("Voice input is not supported in your browser");
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognitionCtor();
     
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -168,8 +197,9 @@ export function QuickCapture({ boards }: QuickCaptureProps) {
     recognition.onend = () => setIsListening(false);
     recognition.onerror = () => setIsListening(false);
     
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
+    recognition.onresult = (event) => {
+      const transcript = event.results[0]?.[0]?.transcript ?? "";
+      if (!transcript) return;
       setTitle(prev => prev ? `${prev} ${transcript}` : transcript);
     };
 
@@ -397,7 +427,7 @@ export function QuickCapture({ boards }: QuickCaptureProps) {
 
             {/* Syntax help */}
             <p className="text-xs text-muted-foreground">
-              💡 Try: "Fix bug p1 tomorrow #backend" or "Write blog post 2h friday #content"
+              💡 Try: &quot;Fix bug p1 tomorrow #backend&quot; or &quot;Write blog post 2h friday #content&quot;
             </p>
 
             {/* Actions */}

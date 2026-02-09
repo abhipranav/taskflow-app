@@ -127,7 +127,7 @@ export function BoardContextMenu({ board, children }: BoardContextMenuProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Board</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{board.name}"? This will permanently delete 
+              Are you sure you want to delete &quot;{board.name}&quot;? This will permanently delete 
               all columns and tasks in this board. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>

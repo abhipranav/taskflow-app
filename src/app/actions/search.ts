@@ -77,7 +77,7 @@ export async function searchTasks(filters: SearchFilters): Promise<SearchResult[
   if (columnIds.length === 0) return [];
 
   // Search cards
-  let cardsQuery = db
+  const cardsQuery = db
     .select({
       id: cards.id,
       title: cards.title,

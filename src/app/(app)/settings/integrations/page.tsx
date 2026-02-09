@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { getAIProviderStatus, getUserPreferences } from "@/app/actions/settings";
+import { getAIProviderStatus } from "@/app/actions/settings";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Github, Bot, Zap, Server } from "lucide-react";
@@ -13,8 +13,6 @@ export default async function IntegrationsPage() {
   }
 
   const aiStatus = await getAIProviderStatus();
-  const prefs = await getUserPreferences();
-
   const aiProviders = [
     {
       id: "gemini",

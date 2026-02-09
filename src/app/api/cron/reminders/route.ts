@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { notifications, notificationPreferences, scheduledReminders, cards } from "@/db/schema";
+import { notifications, scheduledReminders, cards } from "@/db/schema";
 import { eq, and, lt, isNull, gte } from "drizzle-orm";
 
 // This API route should be called by a cron job (e.g., Vercel Cron, GitHub Actions)

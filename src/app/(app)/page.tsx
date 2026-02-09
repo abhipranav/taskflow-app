@@ -3,14 +3,12 @@ import { redirect } from "next/navigation";
 import { getDashboardStats } from "@/app/actions/boards";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { 
   LayoutDashboard, 
   CheckSquare, 
   AlertCircle, 
   Clock, 
-  Plus,
   ArrowRight,
   Sun,
   Target,
@@ -20,8 +18,6 @@ import {
   Sparkles,
   Lightbulb,
 } from "lucide-react";
-import { CreateBoardDialog } from "@/components/modals/create-board-dialog";
-import { createBoard } from "@/app/actions/boards";
 
 export default async function Home() {
   const session = await auth();
@@ -52,10 +48,6 @@ export default async function Home() {
       </div>
     );
   }
-
-  const completionRate = stats.totalTasks > 0 
-    ? Math.round(((stats.totalTasks - stats.overdueTasks - stats.dueSoonTasks) / stats.totalTasks) * 100) 
-    : 0;
 
   return (
     <div className="p-6 space-y-6 max-w-6xl mx-auto">

@@ -2,7 +2,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNow } from "date-fns";
-import { Loader2, ArrowRight, Plus, Pencil, Trash2, Archive, RotateCcw, User, FileText, Layout } from "lucide-react";
 import { ActivityLog as ActivityLogType } from "@/app/actions/activity";
 
 interface ActivityLogProps {

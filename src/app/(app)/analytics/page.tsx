@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
   Trophy,
   ChevronRight,
 } from "lucide-react";
-import { format, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from "date-fns";
+import { startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from "date-fns";
 import Link from "next/link";
 
 interface AnalyticsData {
@@ -54,11 +54,7 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("7d");
 
-  useEffect(() => {
-    fetchAnalytics();
-  }, [timeRange]);
-
-  async function fetchAnalytics() {
+  const fetchAnalytics = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`/api/analytics?range=${timeRange}`);
@@ -69,7 +65,11 @@ export default function AnalyticsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [timeRange]);
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [fetchAnalytics]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);

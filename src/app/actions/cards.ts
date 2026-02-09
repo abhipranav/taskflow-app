@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { cards, cardLabels, columns, boards } from "@/db/schema";
+import { cards, cardLabels, columns } from "@/db/schema";
 import { eq, asc, and, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
@@ -94,7 +94,7 @@ export async function updateCard(
       });
       
       if (card && card.column) {
-        let action = "updated";
+        const action = "updated";
         let details = "";
         
         if (data.dueDate) {

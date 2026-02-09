@@ -5,7 +5,6 @@ import { useTheme } from "next-themes";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import { Moon, Sun, Monitor, Check } from "lucide-react";
 import { getUserPreferences, updateUserPreferences } from "@/app/actions/settings";
 

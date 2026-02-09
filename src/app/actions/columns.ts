@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { columns } from "@/db/schema";
-import { eq, asc, gt, lt, sql } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 // Create a new column

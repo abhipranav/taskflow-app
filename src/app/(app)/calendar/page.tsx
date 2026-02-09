@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar as CalendarIcon,
-  Plus,
 } from "lucide-react";
 import {
   format,
@@ -36,17 +35,17 @@ interface CalendarTask {
   columnName: string;
 }
 
+interface CalendarApiTask extends Omit<CalendarTask, "dueDate"> {
+  dueDate: string;
+}
+
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tasks, setTasks] = useState<CalendarTask[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    fetchTasks();
-  }, [currentDate]);
-
-  async function fetchTasks() {
+  const fetchTasks = useCallback(async () => {
     setLoading(true);
     try {
       const start = startOfMonth(currentDate);
@@ -54,14 +53,18 @@ export default function CalendarPage() {
       const response = await fetch(
         `/api/calendar?start=${start.toISOString()}&end=${end.toISOString()}`
       );
-      const data = await response.json();
-      setTasks(data.tasks.map((t: any) => ({ ...t, dueDate: new Date(t.dueDate) })));
+      const data: { tasks: CalendarApiTask[] } = await response.json();
+      setTasks(data.tasks.map((task) => ({ ...task, dueDate: new Date(task.dueDate) })));
     } catch (error) {
       console.error("Failed to fetch calendar tasks:", error);
     } finally {
       setLoading(false);
     }
-  }
+  }, [currentDate]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);

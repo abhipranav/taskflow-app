@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { boards, columns, cards, labels, cardLabels, boardMembers } from "@/db/schema";
+import { boards, columns, cards, labels, boardMembers } from "@/db/schema";
 import { eq, asc, isNull } from "drizzle-orm";
 import { auth } from "@/auth";
 import { getTemplateById } from "@/lib/board-templates";

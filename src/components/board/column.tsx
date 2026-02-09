@@ -7,7 +7,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { GripVertical, MoreHorizontal, Plus, Trash2, Pencil } from "lucide-react";
+import { GripVertical, Plus, Trash2, Pencil } from "lucide-react";
 import { TaskCard } from "./task-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

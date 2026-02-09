@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/db";
-import { timeEntries, cards } from "@/db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { timeEntries } from "@/db/schema";
+import { eq, and, desc, sql, gte, lte } from "drizzle-orm";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
@@ -152,8 +152,16 @@ export async function getUserTimeEntries(
   const session = await auth();
   if (!session?.user?.id) return [];
 
-  let query = db.query.timeEntries.findMany({
-    where: eq(timeEntries.userId, session.user.id),
+  const conditions = [eq(timeEntries.userId, session.user.id)];
+  if (startDate) {
+    conditions.push(gte(timeEntries.createdAt, startDate));
+  }
+  if (endDate) {
+    conditions.push(lte(timeEntries.createdAt, endDate));
+  }
+
+  return await db.query.timeEntries.findMany({
+    where: and(...conditions),
     orderBy: [desc(timeEntries.createdAt)],
     with: {
       card: {
@@ -167,6 +175,4 @@ export async function getUserTimeEntries(
       },
     },
   });
-
-  return await query;
 }

@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { db } from "@/db";
 import { cards, columns, boards, timeEntries, activities } from "@/db/schema";
-import { eq, and, gte, lte, sql, desc, isNull, isNotNull } from "drizzle-orm";
+import { eq, and, gte, lte, sql, isNull, isNotNull } from "drizzle-orm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -18,7 +18,7 @@ import {
   ArrowRight,
   AlertTriangle,
 } from "lucide-react";
-import { format, startOfWeek, endOfWeek, subWeeks, differenceInDays, isThisWeek, isPast } from "date-fns";
+import { format, startOfWeek, endOfWeek, subWeeks, differenceInDays } from "date-fns";
 
 async function getWeeklyStats(userId: string) {
   const now = new Date();
@@ -362,7 +362,7 @@ export default async function WeeklyReviewPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5" />
-            This Week's Activity
+            This Week&apos;s Activity
           </CardTitle>
         </CardHeader>
         <CardContent>

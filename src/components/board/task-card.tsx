@@ -3,7 +3,7 @@
 import { memo, useMemo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Calendar, User, AlertCircle, Clock, Flag } from "lucide-react";
+import { Calendar, AlertCircle, Clock, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Task } from "./kanban-board";
 

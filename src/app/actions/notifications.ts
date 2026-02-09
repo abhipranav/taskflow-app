@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { notifications, notificationPreferences, scheduledReminders, cards, users } from "@/db/schema";
+import { notifications, notificationPreferences, scheduledReminders, cards } from "@/db/schema";
 import { eq, desc, and, lt, isNull, gte } from "drizzle-orm";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";

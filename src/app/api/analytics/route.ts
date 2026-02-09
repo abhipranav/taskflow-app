@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/db";
-import { cards, columns, boards, timeEntries, activities } from "@/db/schema";
-import { eq, and, gte, lte, isNull, sql, desc } from "drizzle-orm";
+import { cards, boards, timeEntries, activities } from "@/db/schema";
+import { eq, and, gte, isNull, desc } from "drizzle-orm";
 import { subDays, startOfDay, endOfDay, eachDayOfInterval, format, startOfWeek, endOfWeek } from "date-fns";
 
 export async function GET(request: NextRequest) {
@@ -92,14 +92,14 @@ export async function GET(request: NextRequest) {
 
   // Board with most time
   const timeByBoard: Record<string, { name: string; time: number }> = {};
-  userTimeEntries.forEach(e => {
-    const card = e.card as any;
-    if (card?.column?.board) {
-      const boardId = card.column.board.id;
+  userTimeEntries.forEach((entry) => {
+    const board = entry.card?.column?.board;
+    if (board) {
+      const boardId = board.id;
       if (!timeByBoard[boardId]) {
-        timeByBoard[boardId] = { name: card.column.board.name, time: 0 };
+        timeByBoard[boardId] = { name: board.name, time: 0 };
       }
-      timeByBoard[boardId].time += e.duration;
+      timeByBoard[boardId].time += entry.duration;
     }
   });
   const mostTimeSpentBoard = Object.values(timeByBoard)

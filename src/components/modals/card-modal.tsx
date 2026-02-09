@@ -191,7 +191,7 @@ export function CardModal({
       setNewLinkUrl("");
       setIsAddingLink(false);
     }
-  }, [task, isOpen]);
+  }, [task, isOpen, boardMembers]);
 
   useLayoutEffect(() => {
     if (!isOpen || !origin || !contentRef.current) return;
@@ -232,7 +232,7 @@ export function CardModal({
         easing: "cubic-bezier(0.16, 1, 0.3, 1)",
       }
     );
-  }, [isOpen, origin?.x, origin?.y]);
+  }, [isOpen, origin]);
 
   // Lazy-load heavy sections
   useEffect(() => {
@@ -811,7 +811,7 @@ export function CardModal({
                         onClick={() => {
                           setPriority(p.value);
                           startTransition(async () => {
-                            await updateCard(task!.id, { priority: p.value } as any);
+                            await updateCard(task!.id, { priority: p.value });
                             onUpdate(task!.id, { priority: p.value });
                           });
                         }}

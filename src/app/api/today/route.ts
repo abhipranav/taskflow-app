@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import { cards, columns, boards } from "@/db/schema";
-import { eq, and, or, lte, gte, isNull, isNotNull } from "drizzle-orm";
+import { eq, and, or, lte, isNull, isNotNull } from "drizzle-orm";
 import { addDays, startOfDay, endOfDay } from "date-fns";
 
 export async function GET() {

@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { activities, cards, columns, boards } from "@/db/schema";
+import { activities, cards, boards } from "@/db/schema";
 import { eq, and, gte, desc } from "drizzle-orm";
 import { auth } from "@/auth";
 import { subDays, startOfDay, format } from "date-fns";
@@ -45,7 +45,7 @@ export async function generateStandupReport() {
 
   const allTasks = userBoards.flatMap(b =>
     b.columns.flatMap(c =>
-      c.cards.map((card: any) => ({
+      c.cards.map((card) => ({
         ...card,
         boardName: b.name,
         columnName: c.name,

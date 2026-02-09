@@ -28,17 +28,20 @@ export default async function BoardPage({ params }: BoardPageProps) {
     getBoardMembers(boardId),
   ]);
 
+  type BoardColumn = (typeof board.columns)[number];
+  type BoardCard = BoardColumn["cards"][number];
+
   // Transform data for the KanbanBoard component
-  const columnsData = board.columns.map((col) => ({
+  const columnsData = board.columns.map((col: BoardColumn) => ({
     id: col.id,
     title: col.name,
-      tasks: col.cards.map((card: any) => ({
+      tasks: col.cards.map((card: BoardCard) => ({
         id: card.id,
         title: card.title,
         description: card.description || undefined,
         columnId: card.columnId,
         columnTitle: col.name,
-        labels: card.cardLabels.map((cl: any) => ({
+        labels: card.cardLabels.map((cl: BoardCard["cardLabels"][number]) => ({
           id: cl.label.id,
           name: cl.label.name,
           color: cl.label.color,

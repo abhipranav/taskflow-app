@@ -28,7 +28,6 @@ interface LogEntry {
 
 // Environment check
 const isDevelopment = process.env.NODE_ENV === "development";
-const isServer = typeof window === "undefined";
 
 // Log level hierarchy for filtering
 const LOG_LEVELS: Record<LogLevel, number> = {

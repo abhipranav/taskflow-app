@@ -1,14 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { Play, Pause, RotateCcw, Coffee, Target, Volume2, VolumeX, X, Settings2, ChevronDown } from "lucide-react";
+import { Play, Pause, RotateCcw, Coffee, Target, Volume2, VolumeX, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,24 +52,6 @@ export function FocusTimer({ onTimeLogged, currentTaskId, currentTaskTitle, trig
     return () => document.removeEventListener("taskflow:toggle-focus-timer", handleToggle);
   }, []);
 
-  // Timer logic
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (isRunning && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
-        if (mode === "focus") {
-          setTotalFocusTime(prev => prev + 1);
-        }
-      }, 1000);
-    } else if (timeLeft === 0) {
-      handleTimerComplete();
-    }
-
-    return () => clearInterval(interval);
-  }, [isRunning, timeLeft, mode]);
-
   const handleTimerComplete = useCallback(() => {
     setIsRunning(false);
     
@@ -116,6 +93,24 @@ export function FocusTimer({ onTimeLogged, currentTaskId, currentTaskTitle, trig
       setTimeLeft(customDuration * 60);
     }
   }, [mode, sessionsCompleted, soundEnabled, onTimeLogged, currentTaskId, customDuration]);
+
+  // Timer logic
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+
+    if (isRunning && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+        if (mode === "focus") {
+          setTotalFocusTime(prev => prev + 1);
+        }
+      }, 1000);
+    } else if (timeLeft === 0) {
+      handleTimerComplete();
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning, timeLeft, mode, handleTimerComplete]);
 
   const toggleTimer = () => {
     if (!isRunning) {

@@ -18,7 +18,7 @@ import {
   Sparkles,
   Flag,
 } from "lucide-react";
-import { format, isToday, isPast, isTomorrow, addDays } from "date-fns";
+import { format, isToday, isPast, isTomorrow } from "date-fns";
 import Link from "next/link";
 
 interface FocusTask {
@@ -31,6 +31,10 @@ interface FocusTask {
   boardName: string;
   columnName: string;
   isCompleted: boolean;
+}
+
+interface FocusTaskApi extends Omit<FocusTask, "dueDate"> {
+  dueDate: string | null;
 }
 
 interface TodayStats {
@@ -53,8 +57,12 @@ export default function TodayPage() {
   async function fetchTodayTasks() {
     try {
       const response = await fetch("/api/today");
-      const data = await response.json();
-      setTasks(data.tasks);
+      const data: { tasks: FocusTaskApi[]; stats: TodayStats } = await response.json();
+      const parsedTasks: FocusTask[] = data.tasks.map((task) => ({
+        ...task,
+        dueDate: task.dueDate ? new Date(task.dueDate) : null,
+      }));
+      setTasks(parsedTasks);
       setStats(data.stats);
     } catch (error) {
       console.error("Failed to fetch today's tasks:", error);
@@ -248,7 +256,7 @@ export default function TodayPage() {
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <Target className="h-5 w-5 text-primary" />
-              <CardTitle>Today's Focus</CardTitle>
+              <CardTitle>Today&apos;s Focus</CardTitle>
               {todayTasks.length > 0 && (
                 <Badge className="ml-auto">{todayTasks.length}</Badge>
               )}
@@ -262,7 +270,7 @@ export default function TodayPage() {
               <div className="py-8 text-center">
                 <Sparkles className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
                 <p className="text-muted-foreground">
-                  No tasks due today. You're all caught up!
+                  No tasks due today. You&apos;re all caught up!
                 </p>
               </div>
             ) : (
